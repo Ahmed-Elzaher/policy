@@ -90,7 +90,7 @@ html[dir="ltr"] body {
 }
 
 /* Header & Navbar */
-header {
+header.site-header {
   position: sticky;
   top: 0;
   z-index: 100;
@@ -796,7 +796,7 @@ html[dir="rtl"] .toast-notice {
 
 /* Print Stylesheet */
 @media print {
-  header, footer, .toc-sidebar, .doc-top-bar, .contact-card, .search-wrapper, .hero-pill {
+  header.site-header, footer, .toc-sidebar, .doc-top-bar, .contact-card, .search-wrapper, .hero-pill {
     display: none !important;
   }
   body, .layout, main, .doc-layout, .doc-main {

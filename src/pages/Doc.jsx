@@ -76,14 +76,14 @@ export function Doc({ page, lang, showToast }) {
           </div>
         </div>
 
-        <header className="doc-header">
+        <div className="doc-header">
           <h1>{data.title}</h1>
           <div className="doc-meta">
             <span>{t.updated}: <strong>{lang === "ar" ? C.lastUpdated : C.lastUpdatedEn}</strong></span>
             <span>•</span>
             <span>{C.companyName}</span>
           </div>
-        </header>
+        </div>
 
         {page === "delete" && (
           <CalloutBox

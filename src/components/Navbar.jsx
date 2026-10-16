@@ -26,7 +26,7 @@ export function Navbar({ lang, setLang, theme, toggleTheme }) {
   }, [location.pathname]);
 
   return (
-    <header>
+    <header className="site-header">
       <div className="header-inner">
         <Link to="/" className="brand" aria-label="MatchIn Home">
           <img
