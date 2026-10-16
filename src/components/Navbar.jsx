@@ -29,9 +29,14 @@ export function Navbar({ lang, setLang, theme, toggleTheme }) {
     <header>
       <div className="header-inner">
         <Link to="/" className="brand" aria-label="MatchIn Home">
-          <div className="brand-badge">M</div>
-          <span className="brand-text">{lang === "ar" ? C.appName : C.appNameEn}</span>
-          <span className="brand-tag">Legal</span>
+          <img
+            src="/logo.png"
+            alt="MatchIn"
+            className="brand-logo"
+            width="34"
+            height="34"
+          />
+          <span className="brand-text">MatchIn</span>
         </Link>
 
         <nav className="nav-links" aria-label="Main Navigation">
@@ -44,21 +49,21 @@ export function Navbar({ lang, setLang, theme, toggleTheme }) {
 
         <div className="header-actions">
           <button
-            className="icon-btn"
+            className="icon-btn theme-btn"
             onClick={toggleTheme}
-            aria-label="Toggle Theme"
-            title={theme === "dark" ? "Switch to Light Mode" : "Switch to Dark Mode"}
+            aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+            title={theme === "dark" ? "الوضع النهاري" : "الوضع الليلي"}
           >
             {theme === "dark" ? <SunIcon size={16} /> : <MoonIcon size={16} />}
           </button>
 
           <button
-            className="icon-btn"
+            className="icon-btn lang-btn"
             onClick={() => setLang(lang === "ar" ? "en" : "ar")}
             aria-label="Toggle language"
-            title="Switch Language"
+            title={lang === "ar" ? "Switch to English" : "التحويل إلى العربية"}
           >
-            🌐 {t.langBtn}
+            {t.langBtn}
           </button>
         </div>
       </div>

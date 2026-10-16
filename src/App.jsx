@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useMemo } from "react";
 import { Routes, Route, Link, useLocation } from "react-router-dom";
 import { CONFIG as C } from "./config.js";
-import { UI, PAGES, TLDR } from "./content.js";
+import { UI, PAGES } from "./content.js";
 import { Navbar } from "./components/Navbar.jsx";
 import { Footer } from "./components/Footer.jsx";
 import { TableOfContents } from "./components/TableOfContents.jsx";
@@ -12,7 +12,6 @@ import {
   DocumentIcon,
   TrashIcon,
   HeadsetIcon,
-  SparklesIcon,
   CopyIcon,
   CheckIcon,
   PrintIcon,
@@ -22,24 +21,24 @@ import {
 
 const CARD_META = {
   privacy: {
-    icon: <ShieldIcon size={24} />,
-    descAr: "معلومات جمع البيانات والأذونات والحماية وخدمات الطرف الثالث وفق أحدث معايير الأمان.",
-    descEn: "Comprehensive data collection, mobile permissions, and third-party security policies.",
+    icon: <ShieldIcon size={22} />,
+    descAr: "معلومات جمع البيانات والأذونات والحماية وخدمات الطرف الثالث المعتمدة.",
+    descEn: "Data collection, device permissions, security measures, and third-party services.",
   },
   terms: {
-    icon: <DocumentIcon size={24} />,
-    descAr: "قواعد الاستخدام المقبول، حقوق الملكية الفكرية، ومسؤوليات واستخدام ميزات الذكاء الاصطناعي.",
-    descEn: "Acceptable use guidelines, intellectual property, and AI-assisted mentorship terms.",
+    icon: <DocumentIcon size={22} />,
+    descAr: "قواعد الاستخدام المقبول، حقوق الملكية الفكرية، ومسؤوليات الحساب.",
+    descEn: "Acceptable use guidelines, intellectual property, and user responsibilities.",
   },
   delete: {
-    icon: <TrashIcon size={24} />,
-    descAr: "إجراءات حذف الحساب والبيانات نهائياً لاستيفاء متطلبات Google Play Data Safety.",
-    descEn: "Step-by-step permanent account and data erasure in compliance with Google Play standards.",
+    icon: <TrashIcon size={22} />,
+    descAr: "إجراءات حذف الحساب وكافة البيانات المرتبطة وفق متطلبات Google Play Data Safety.",
+    descEn: "Permanent account and data erasure in compliance with Google Play requirements.",
   },
   support: {
-    icon: <HeadsetIcon size={24} />,
-    descAr: "قنوات التواصل المباشرة مع فريق الدعم الفني والقانوني للاستفسارات والمساعدة.",
-    descEn: "Direct official support channels and fast assistance for legal or technical queries.",
+    icon: <HeadsetIcon size={22} />,
+    descAr: "قنوات التواصل الرسمية مع فريق الدعم الفني للاستفسارات والمساعدة.",
+    descEn: "Official technical support and compliance channels for direct inquiries.",
   },
 };
 
@@ -98,13 +97,23 @@ function Toast({ message }) {
 function Doc({ page, lang, showToast }) {
   const t = UI[lang];
   const data = PAGES[page][lang];
-  const tldrItems = TLDR[page]?.[lang] || [];
   const [searchTerm, setSearchTerm] = useState("");
-  const location = useLocation();
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    document.title = `${data.title} | ${lang === "ar" ? C.appName : C.appNameEn}`;
+    const pageTitle = `${data.title} | ${C.appName}`;
+    document.title = pageTitle;
+
+    // Update meta description dynamically
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) {
+      metaDesc.setAttribute(
+        "content",
+        lang === "ar"
+          ? `${data.title} الرسمية لتطبيق MatchIn - تم التحديث في ${C.lastUpdated}`
+          : `Official ${data.title} for MatchIn - Last updated on ${C.lastUpdatedEn}`
+      );
+    }
   }, [page, lang, data.title]);
 
   const filteredSections = useMemo(() => {
@@ -120,7 +129,7 @@ function Doc({ page, lang, showToast }) {
 
   const copyPageLink = () => {
     navigator.clipboard?.writeText(window.location.href);
-    showToast(lang === "ar" ? "تم نسخ رابط الصفحة بنجاح!" : "Page link copied to clipboard!");
+    showToast(lang === "ar" ? "تم نسخ الرابط بنجاح" : "Link copied to clipboard");
   };
 
   return (
@@ -129,14 +138,14 @@ function Doc({ page, lang, showToast }) {
         <div className="doc-top-bar">
           <Link to="/" className="back-link">
             <BackArrowIcon isRtl={lang === "ar"} size={16} />
-            <span>{lang === "ar" ? "العودة للرئيسية" : "Back to Home"}</span>
+            <span>{lang === "ar" ? "الرئيسية" : "Home"}</span>
           </Link>
 
           <div className="doc-actions">
             <button
               className="doc-action-btn"
               onClick={() => window.print()}
-              title={lang === "ar" ? "طباعة أو حفظ كـ PDF" : "Print or Save as PDF"}
+              title={lang === "ar" ? "طباعة أو حفظ كـ PDF" : "Print or save as PDF"}
             >
               <PrintIcon size={14} />
               <span>{lang === "ar" ? "طباعة / PDF" : "Print"}</span>
@@ -144,7 +153,7 @@ function Doc({ page, lang, showToast }) {
             <button
               className="doc-action-btn"
               onClick={copyPageLink}
-              title={lang === "ar" ? "نسخ رابط الصفحة" : "Copy page link"}
+              title={lang === "ar" ? "نسخ رابط الصفحة" : "Copy page URL"}
             >
               <CopyIcon size={14} />
               <span>{lang === "ar" ? "نسخ الرابط" : "Copy Link"}</span>
@@ -155,35 +164,21 @@ function Doc({ page, lang, showToast }) {
         <header className="doc-header">
           <h1>{data.title}</h1>
           <div className="doc-meta">
-            <span>{t.updated}: <strong>{C.lastUpdated}</strong></span>
+            <span>{t.updated}: <strong>{lang === "ar" ? C.lastUpdated : C.lastUpdatedEn}</strong></span>
             <span>•</span>
             <span>{C.companyName}</span>
           </div>
         </header>
 
-        {tldrItems.length > 0 && (
-          <div className="tldr-box">
-            <div className="tldr-header">
-              <SparklesIcon size={18} />
-              <span>{lang === "ar" ? "ملخص سريع (في أقل من دقيقة)" : "Executive Summary (TL;DR)"}</span>
-            </div>
-            <ul className="tldr-list">
-              {tldrItems.map((item, idx) => (
-                <li key={idx}>{item}</li>
-              ))}
-            </ul>
-          </div>
-        )}
-
         {page === "delete" && (
           <CalloutBox
             type="danger"
-            title={lang === "ar" ? "تنبيه هام حول حذف البيانات" : "Critical Data Safety Notice"}
+            title={lang === "ar" ? "إجراءات حذف البيانات (Google Play Data Safety)" : "Data Safety & Erasure Notice"}
           >
             <p>
               {lang === "ar"
-                ? "إجراء الحذف نهائي ولا يمكن التراجع عنه. يتم فوراً تطهير ملف السيرة الذاتية (CV) وتاريخ المحادثات والمهارات المحفوظة من قواعد بياناتنا الحية."
-                : "Account deletion is irreversible. Your resume (CV), chat history, and skill assessment data will be permanently wiped from active servers."}
+                ? "إجراء الحذف نهائي. يتم فوراً مسح بيانات السيرة الذاتية (CV)، ومعلومات الملف الشخصي، وسجلات المحادثات نهائياً من خوادمنا الحية."
+                : "Deletion is permanent. Your CV documents, profile credentials, and AI interaction history are purged from our active databases."}
             </p>
           </CalloutBox>
         )}
@@ -191,13 +186,13 @@ function Doc({ page, lang, showToast }) {
         <SearchBar
           value={searchTerm}
           onChange={setSearchTerm}
-          placeholder={lang === "ar" ? "ابحث داخل بنود هذه الوثيقة..." : "Search within this document..."}
+          placeholder={lang === "ar" ? "ابحث في بنود الوثيقة..." : "Search document sections..."}
         />
 
         <div className="doc-body" style={{ marginTop: "24px" }}>
           {filteredSections.length === 0 ? (
             <p style={{ textAlign: "center", color: "var(--muted)", padding: "40px 0" }}>
-              {lang === "ar" ? "لم يتم العثور على نتائج تطابق بحثك." : "No sections matched your search query."}
+              {lang === "ar" ? "لم يتم العثور على نتائج تطابق بحثك." : "No sections matched your search."}
             </p>
           ) : (
             filteredSections.map((s, i) => (
@@ -230,7 +225,16 @@ function Home({ lang, showToast }) {
   const [search, setSearch] = useState("");
 
   useEffect(() => {
-    document.title = `${lang === "ar" ? C.appName : C.appNameEn} | ${t.homeTitle}`;
+    document.title = `MatchIn | ${t.homeTitle}`;
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) {
+      metaDesc.setAttribute(
+        "content",
+        lang === "ar"
+          ? "المركز القانوني وبوابة السياسات الرسمية وشروط الاستخدام وحذف الحساب لتطبيق MatchIn."
+          : "Official policy and legal center for MatchIn: privacy policy, terms of service, and data safety."
+      );
+    }
   }, [lang, t.homeTitle]);
 
   const filteredKeys = keys.filter((k) => {
@@ -243,23 +247,19 @@ function Home({ lang, showToast }) {
 
   const copyEmail = () => {
     navigator.clipboard?.writeText(C.email);
-    showToast(lang === "ar" ? "تم نسخ البريد الإلكتروني بنجاح!" : "Support email copied to clipboard!");
+    showToast(lang === "ar" ? "تم نسخ البريد الإلكتروني" : "Email copied to clipboard");
   };
 
   return (
     <div className="home-view">
       <div className="hero">
-        <div className="hero-pill">
-          <SparklesIcon size={16} />
-          <span>{t.badge}</span>
-        </div>
         <h1>{t.homeTitle}</h1>
         <p className="hero-sub">{t.homeSub}</p>
 
         <SearchBar
           value={search}
           onChange={setSearch}
-          placeholder={lang === "ar" ? "ابحث في السياسات أو الشروط أو حذف الحساب..." : "Search policies, terms, or account deletion..."}
+          placeholder={lang === "ar" ? "ابحث في السياسات أو الشروط أو حذف الحساب..." : "Search policies, terms, or data deletion..."}
         />
       </div>
 
@@ -290,11 +290,11 @@ function Home({ lang, showToast }) {
           </h3>
           <p>
             {lang === "ar"
-              ? "فريق الدعم والامتثال القانوني لتطبيق MatchIn متاح للإجابة على استفساراتك بشكل فوري."
-              : "Our compliance and support team is here to assist with any questions regarding policies and safety."}
+              ? "فريق الدعم والامتثال القانوني لتطبيق MatchIn متاح للإجابة على استفساراتك."
+              : "Our compliance and support desk is ready to help with your privacy and policy questions."}
           </p>
         </div>
-        <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
+        <div style={{ display: "flex", gap: "10px", flexWrap: "wrap", alignItems: "center" }}>
           <a href={`mailto:${C.email}`} className="contact-card-btn">
             {C.email}
           </a>
@@ -303,7 +303,7 @@ function Home({ lang, showToast }) {
             onClick={copyEmail}
             title={lang === "ar" ? "نسخ البريد الإلكتروني" : "Copy email address"}
           >
-            <CopyIcon size={16} />
+            <CopyIcon size={15} />
             <span>{lang === "ar" ? "نسخ" : "Copy"}</span>
           </button>
         </div>
@@ -321,7 +321,7 @@ export default function App() {
     setToastMessage(msg);
     setTimeout(() => {
       setToastMessage("");
-    }, 2600);
+    }, 2400);
   };
 
   return (
