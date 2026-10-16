@@ -1,41 +1,57 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef, useCallback } from "react";
 import { DocumentIcon } from "./Icons.jsx";
 
 export function TableOfContents({ sections, lang }) {
   const [activeId, setActiveId] = useState("sec-0");
+  const isClickScrolling = useRef(false);
+  const clickTimer = useRef(null);
+
+  const updateActiveSection = useCallback(() => {
+    if (isClickScrolling.current) return;
+    if (!sections || sections.length === 0) return;
+
+    // Detect active section based on heading distance from sticky navbar
+    const triggerOffset = 140;
+    let current = "sec-0";
+
+    for (let i = 0; i < sections.length; i++) {
+      const el = document.getElementById(`sec-${i}`);
+      if (!el) continue;
+      const rect = el.getBoundingClientRect();
+      if (rect.top <= triggerOffset) {
+        current = `sec-${i}`;
+      }
+    }
+
+    setActiveId(current);
+  }, [sections]);
 
   useEffect(() => {
-    const handleScroll = () => {
-      if (!sections || sections.length === 0) return;
-
-      // 1. If user is at the very bottom edge of the page (within 12px), activate last section
-      const scrollBottom =
-        document.documentElement.scrollHeight - (window.scrollY + window.innerHeight);
-
-      if (scrollBottom <= 12) {
-        setActiveId(`sec-${sections.length - 1}`);
-        return;
-      }
-
-      // 2. Find the current section in view based on viewport position
-      // A section becomes active when its heading reaches the upper portion of viewport (<= 140px)
-      let current = "sec-0";
-      for (let i = 0; i < sections.length; i++) {
-        const el = document.getElementById(`sec-${i}`);
-        if (!el) continue;
-        const rect = el.getBoundingClientRect();
-        if (rect.top <= 140) {
-          current = `sec-${i}`;
-        }
-      }
-
-      setActiveId(current);
+    window.addEventListener("scroll", updateActiveSection, { passive: true });
+    updateActiveSection();
+    return () => {
+      window.removeEventListener("scroll", updateActiveSection);
+      if (clickTimer.current) clearTimeout(clickTimer.current);
     };
+  }, [updateActiveSection]);
 
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll();
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [sections]);
+  const handleLinkClick = (e, id) => {
+    e.preventDefault();
+    setActiveId(id);
+    isClickScrolling.current = true;
+
+    if (clickTimer.current) clearTimeout(clickTimer.current);
+    clickTimer.current = setTimeout(() => {
+      isClickScrolling.current = false;
+      updateActiveSection();
+    }, 700);
+
+    const target = document.getElementById(id);
+    if (target) {
+      target.scrollIntoView({ behavior: "smooth" });
+      window.history.pushState(null, "", `#${id}`);
+    }
+  };
 
   const title = lang === "ar" ? "محتويات الوثيقة" : "Table of Contents";
 
@@ -54,15 +70,7 @@ export function TableOfContents({ sections, lang }) {
               <a
                 href={`#${id}`}
                 className={`toc-link ${isActive ? "active" : ""}`}
-                onClick={(e) => {
-                  e.preventDefault();
-                  const target = document.getElementById(id);
-                  if (target) {
-                    target.scrollIntoView({ behavior: "smooth" });
-                    setActiveId(id);
-                    window.history.pushState(null, "", `#${id}`);
-                  }
-                }}
+                onClick={(e) => handleLinkClick(e, id)}
               >
                 {s.h}
               </a>

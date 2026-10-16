@@ -592,6 +592,11 @@ html[dir="ltr"] .search-clear-btn {
   scroll-margin-top: 80px;
 }
 
+.doc-section:last-child {
+  margin-bottom: 0;
+  padding-bottom: 260px;
+}
+
 .doc-section h2 {
   font-size: 1.35rem;
   font-weight: 700;
