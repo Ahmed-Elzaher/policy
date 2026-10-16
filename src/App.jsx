@@ -16,7 +16,8 @@ import {
   CopyIcon,
   CheckIcon,
   PrintIcon,
-  ArrowIcon,
+  BackArrowIcon,
+  ForwardArrowIcon,
 } from "./components/Icons.jsx";
 
 const CARD_META = {
@@ -127,7 +128,7 @@ function Doc({ page, lang, showToast }) {
       <div className="doc-main">
         <div className="doc-top-bar">
           <Link to="/" className="back-link">
-            <ArrowIcon dir={lang === "ar" ? "rtl" : "ltr"} size={16} />
+            <BackArrowIcon isRtl={lang === "ar"} size={16} />
             <span>{lang === "ar" ? "العودة للرئيسية" : "Back to Home"}</span>
           </Link>
 
@@ -274,7 +275,7 @@ function Home({ lang, showToast }) {
             </div>
             <span className="card-footer-action">
               <span>{t.open}</span>
-              <ArrowIcon dir={lang === "ar" ? "rtl" : "ltr"} size={16} />
+              <ForwardArrowIcon isRtl={lang === "ar"} size={16} />
             </span>
           </Link>
         ))}

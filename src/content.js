@@ -441,7 +441,7 @@ export const PAGES = {
           ul: [
             `البريد الإلكتروني للدعم الفني: ${C.email}`,
             `الموقع الرسمي: ${C.website}`,
-            "قنوات التواصل الاجتماعي: LinkedIn (@skillmatch-app) | X (@SkillMatchApp) | Instagram (@skillmatch.official)",
+            "قنوات التواصل الاجتماعي الرسمية: LinkedIn (@matchin-app) | X (@MatchInApp) | Instagram (@matchin.app)",
           ],
         },
         {
@@ -466,7 +466,7 @@ export const PAGES = {
           ul: [
             `Support Email: ${C.email}`,
             `Official Website: ${C.website}`,
-            "Official Social Channels: LinkedIn (@skillmatch-app) | X (@SkillMatchApp) | Instagram (@skillmatch.official)",
+            "Official Social Channels: LinkedIn (@matchin-app) | X (@MatchInApp) | Instagram (@matchin.app)",
           ],
         },
         {

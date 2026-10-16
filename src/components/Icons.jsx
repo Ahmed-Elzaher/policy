@@ -101,11 +101,40 @@ export function PrintIcon({ className = "", size = 16 }) {
   );
 }
 
-export function ArrowIcon({ dir = "rtl", className = "", size = 16 }) {
+export function BackArrowIcon({ isRtl = false, className = "", size = 16 }) {
+  // In RTL, "back" points to the right (→). In LTR, "back" points to the left (←).
   return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className} style={{ transform: dir === "rtl" ? "scaleX(-1)" : "none" }}>
-      <line x1="5" y1="12" x2="19" y2="12" />
-      <polyline points="12 5 19 12 12 19" />
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+      {isRtl ? (
+        <>
+          <line x1="5" y1="12" x2="19" y2="12" />
+          <polyline points="12 5 19 12 12 19" />
+        </>
+      ) : (
+        <>
+          <line x1="19" y1="12" x2="5" y2="12" />
+          <polyline points="12 19 5 12 12 5" />
+        </>
+      )}
+    </svg>
+  );
+}
+
+export function ForwardArrowIcon({ isRtl = false, className = "", size = 16 }) {
+  // In RTL, "forward/open" points to the left (←). In LTR, "forward/open" points to the right (→).
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+      {isRtl ? (
+        <>
+          <line x1="19" y1="12" x2="5" y2="12" />
+          <polyline points="12 19 5 12 12 5" />
+        </>
+      ) : (
+        <>
+          <line x1="5" y1="12" x2="19" y2="12" />
+          <polyline points="12 5 19 12 12 19" />
+        </>
+      )}
     </svg>
   );
 }

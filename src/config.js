@@ -8,6 +8,6 @@ export const CONFIG = {
   website: "https://matchin.app",
   country: "مصر",
   countryEn: "Egypt",
-  lastUpdated: "15 أكتوبر 2026",
+  lastUpdated: "16 أكتوبر 2026",
 };
 

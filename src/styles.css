@@ -873,3 +873,47 @@ html[dir="rtl"] .toast-notice {
     font-size: 1.75rem;
   }
 }
+
+/* =========================================================
+   RTL & Arabic Typography Optimization
+   ========================================================= */
+
+html[dir="rtl"] body {
+  font-family: var(--font-ar);
+  letter-spacing: 0 !important;
+}
+
+html[dir="rtl"] h1,
+html[dir="rtl"] h2,
+html[dir="rtl"] h3,
+html[dir="rtl"] h4,
+html[dir="rtl"] .brand,
+html[dir="rtl"] .brand-text,
+html[dir="rtl"] .hero h1 {
+  letter-spacing: 0 !important;
+}
+
+/* Prevent mixed language punctuation flip */
+.doc-section li,
+.doc-section p,
+.tldr-list li,
+.callout-content p {
+  unicode-bidi: plaintext;
+}
+
+html[dir="rtl"] .doc-section p,
+html[dir="rtl"] .doc-section li {
+  line-height: 1.95;
+  text-align: start;
+}
+
+html[dir="rtl"] .doc-section ul {
+  padding-right: 24px;
+  padding-left: 0;
+}
+
+html[dir="ltr"] .doc-section ul {
+  padding-left: 24px;
+  padding-right: 0;
+}
+
