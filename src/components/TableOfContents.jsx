@@ -2,19 +2,32 @@ import React, { useEffect, useState } from "react";
 import { DocumentIcon } from "./Icons.jsx";
 
 export function TableOfContents({ sections, lang }) {
-  const [activeId, setActiveId] = useState("");
+  const [activeId, setActiveId] = useState("sec-0");
 
   useEffect(() => {
     const handleScroll = () => {
-      const scrollPos = window.scrollY + 120;
-      let current = "";
+      if (!sections || sections.length === 0) return;
+
+      // 1. Check if user reached the bottom of the document
+      const scrollHeight = document.documentElement.scrollHeight;
+      const scrollPosition = window.innerHeight + window.scrollY;
+      const isBottom = scrollPosition >= scrollHeight - 80;
+
+      if (isBottom) {
+        setActiveId(`sec-${sections.length - 1}`);
+        return;
+      }
+
+      // 2. Normal scroll-spy detection
+      const triggerOffset = window.scrollY + 160;
+      let current = `sec-0`;
       for (let i = 0; i < sections.length; i++) {
         const el = document.getElementById(`sec-${i}`);
-        if (el && el.offsetTop <= scrollPos) {
+        if (el && el.offsetTop <= triggerOffset) {
           current = `sec-${i}`;
         }
       }
-      if (current) setActiveId(current);
+      setActiveId(current);
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -44,6 +57,7 @@ export function TableOfContents({ sections, lang }) {
                   const target = document.getElementById(id);
                   if (target) {
                     target.scrollIntoView({ behavior: "smooth" });
+                    setActiveId(id);
                     window.history.pushState(null, "", `#${id}`);
                   }
                 }}
