@@ -8,25 +8,27 @@ export function TableOfContents({ sections, lang }) {
     const handleScroll = () => {
       if (!sections || sections.length === 0) return;
 
-      // 1. Check if user reached the bottom of the document
-      const scrollHeight = document.documentElement.scrollHeight;
-      const scrollPosition = window.innerHeight + window.scrollY;
-      const isBottom = scrollPosition >= scrollHeight - 80;
+      // 1. If user is at the very bottom edge of the page (within 12px), activate last section
+      const scrollBottom =
+        document.documentElement.scrollHeight - (window.scrollY + window.innerHeight);
 
-      if (isBottom) {
+      if (scrollBottom <= 12) {
         setActiveId(`sec-${sections.length - 1}`);
         return;
       }
 
-      // 2. Normal scroll-spy detection
-      const triggerOffset = window.scrollY + 160;
-      let current = `sec-0`;
+      // 2. Find the current section in view based on viewport position
+      // A section becomes active when its heading reaches the upper portion of viewport (<= 140px)
+      let current = "sec-0";
       for (let i = 0; i < sections.length; i++) {
         const el = document.getElementById(`sec-${i}`);
-        if (el && el.offsetTop <= triggerOffset) {
+        if (!el) continue;
+        const rect = el.getBoundingClientRect();
+        if (rect.top <= 140) {
           current = `sec-${i}`;
         }
       }
+
       setActiveId(current);
     };
 
