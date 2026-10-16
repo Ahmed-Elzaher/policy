@@ -482,3 +482,55 @@ export const PAGES = {
     },
   },
 };
+
+export const TLDR = {
+  privacy: {
+    ar: [
+      "بياناتك الشخصية والمهنية مشفرة ومحمية ولا نقوم ببيعها أو تأجيرها لأي طرف ثالث نهائياً.",
+      "مشاركة السيرة الذاتية تتم فقط مع أصحاب العمل عند تقديمك المباشر والاختياري على الوظائف.",
+      "لك كامل الحق في طلب نسخة من بياناتك أو حذف حسابك وبياناتك نهائياً في أي وقت.",
+    ],
+    en: [
+      "Your personal and career data is strictly encrypted and protected. We never sell your data.",
+      "Resumes and profiles are shared with recruiters only upon your voluntary direct application.",
+      "You retain full rights to request an export or permanent erasure of your data at any time.",
+    ],
+  },
+  terms: {
+    ar: [
+      "أنت مسؤول عن صحة ودقة بيانات السيرة الذاتية والمؤهلات المسجلة في حسابك.",
+      "توصيات الذكاء الاصطناعي للمطابقة ومسارات التعلم أدوات توجيهية ولا تشكل عقود توظيف ملزمة.",
+      "يُحظر انتحال الشخصيات أو استخدام برمجيات الاستخراج التلقائي للبيانات.",
+    ],
+    en: [
+      "You are responsible for maintaining accurate qualifications in your profile and uploaded CV.",
+      "AI matching percentages and roadmap recommendations serve as advisory guidance.",
+      "Automated scraping, duplicate spam applications, and fraudulent activity are prohibited.",
+    ],
+  },
+  delete: {
+    ar: [
+      "الحذف الفوري متاح مباشرة من داخل التطبيق: الإعدادات ← الحساب ← حذف الحساب.",
+      "يمكنك أيضاً طلب الحذف عبر مراسلة البريد الرسمي مع التحقق والتنفيذ خلال 7 أيام عمل.",
+      "يتم مسح كافة ملفات السيرة الذاتية والبيانات ومحادثات الذكاء الاصطناعي نهائياً من الخوادم.",
+    ],
+    en: [
+      "Immediate deletion is accessible directly inside the app: Settings → Account → Delete Account.",
+      "Requests via email are verified and completed within 7 business days.",
+      "All CVs, profile details, and AI conversation histories are permanently purged.",
+    ],
+  },
+  support: {
+    ar: [
+      "فريق الدعم الفني والقانوني متاح للإجابة على كافة الاستفسارات.",
+      `البريد الرسمي للتواصل واستقبال الطلبات: ${C.email}`,
+      "للحصول على استجابة سريعة، يرجى تزويدنا بالبريد المسجل وطراز الجهاز ووصف المشكلة.",
+    ],
+    en: [
+      "Our support and compliance desk is available to assist with any questions.",
+      `Official contact channel: ${C.email}`,
+      "For prompt assistance, please provide your registered email and device model.",
+    ],
+  },
+};
+
